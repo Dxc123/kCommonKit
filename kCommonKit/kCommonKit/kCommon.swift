@@ -17,7 +17,7 @@ let kSCREEN_W = UIScreen.main.bounds.size.width;
 //UIApplication.shared.windows.first { $0.isKeyWindow }
 
 //向后兼容的keyWindow
-extension UIWindow {
+public extension UIWindow {
     static var keyWindow: UIWindow? {
         if #available(iOS 13, *) {
             return UIApplication.shared.windows.first { $0.isKeyWindow }
@@ -31,7 +31,7 @@ let kkeyWindow = UIWindow.keyWindow
 
 // MARK: - 全面屏iPhone X系列
 
-func kIsIPhoneX() -> Bool {
+public func kIsIPhoneX() -> Bool {
     if #available(iOS 11, *) {
        let  bottomSafeInset =  UIApplication.shared.windows.first?.safeAreaInsets.bottom ?? 0.0
         if (bottomSafeInset == 34.0 || bottomSafeInset == 21.0) {
@@ -42,7 +42,7 @@ func kIsIPhoneX() -> Bool {
 }
 
 //底部的安全距离
-func kSafeAreaBottomH() -> CGFloat {
+public func kSafeAreaBottomH() -> CGFloat {
     if #available(iOS 11, *) {
         return   UIApplication.shared.windows.first?.safeAreaInsets.bottom ?? 0.0
     } else {
@@ -51,7 +51,7 @@ func kSafeAreaBottomH() -> CGFloat {
 }
 
 //顶部的安全距离
-func kSafeAreaTopH() -> CGFloat {
+public func kSafeAreaTopH() -> CGFloat {
     if #available(iOS 11, *) {
         return   UIApplication.shared.windows.first?.safeAreaInsets.top ?? 0.0
     } else {
@@ -59,7 +59,7 @@ func kSafeAreaTopH() -> CGFloat {
     }
 }
 //状态栏高度
-func kStatusBarH() -> CGFloat {
+public func kStatusBarH() -> CGFloat {
     if #available(iOS 13, *) {
         return  UIApplication.shared.windows.first?.windowScene?.statusBarManager?.statusBarFrame.size.height ?? 0.0
     } else {
@@ -70,25 +70,25 @@ func kStatusBarH() -> CGFloat {
 
 
 //导航栏高度
-let kNavBarH = (kSafeAreaBottomH() == 0 ? 64 : 88)
+public let kNavBarH = (kSafeAreaBottomH() == 0 ? 64 : 88)
 //tabbar高度
-let kTabBarH = (kSafeAreaBottomH() + 49)
+public let kTabBarH = (kSafeAreaBottomH() + 49)
 
 
 // MARK: - 适配
-let UISCALE =  UIScreen.main.bounds.size.width/375
-let kScaleW =  UIScreen.main.bounds.size.width/375
-let kScaleH =  UIScreen.main.bounds.size.height/667
+public let UISCALE =  UIScreen.main.bounds.size.width/375
+public let kScaleW =  UIScreen.main.bounds.size.width/375
+public let kScaleH =  UIScreen.main.bounds.size.height/667
 
 
 // MARK: - 颜色
-func kRGB(_ r:CGFloat,_ g:CGFloat,_ b:CGFloat) -> UIColor{
+public func kRGB(_ r:CGFloat,_ g:CGFloat,_ b:CGFloat) -> UIColor{
     return UIColor(red: (r)/255.0, green: (g)/255.0, blue: (b)/255.0, alpha: 1.0)
 }
 
 
 // MARK: - 随机颜色
-func kRandomColor() -> UIColor {
+public func kRandomColor() -> UIColor {
     let randomRed = CGFloat(arc4random()%255)/255.0
     let randomGreen = CGFloat(arc4random()%255)/255.0
     let randomBlue = CGFloat(arc4random()%255)/255.0
@@ -97,7 +97,7 @@ func kRandomColor() -> UIColor {
 /**
  动态颜色设置(适配黑暗模式)
  */
- func kDynamicColor(light: UIColor, dark: UIColor) -> UIColor {
+public  func kDynamicColor(light: UIColor, dark: UIColor) -> UIColor {
    if #available(iOS 13.0, *) {
        return UIColor { $0.userInterfaceStyle == .dark ? dark : light }
    } else {
@@ -107,18 +107,18 @@ func kRandomColor() -> UIColor {
 
 
 /**获取图片*/
-let kIMAGE: (String) -> UIImage? = {imageName in
+public let kIMAGE: (String) -> UIImage? = {imageName in
     return UIImage.init(named: imageName)
 }
 /**获取原色图片*/
-let kIMG_Original: (String) -> UIImage? = { imageName in
+public let kIMG_Original: (String) -> UIImage? = { imageName in
     return UIImage.init(named: imageName)?.withRenderingMode(.alwaysOriginal)
     
 }
 
 
 /**封装的日志输出功能（T表示不指定日志信息参数类型） （文件名、函数名、行号）*/
-func kLog<T>(_ message:T, file:String = #file, function:String = #function,
+public func kLog<T>(_ message:T, file:String = #file, function:String = #function,
            line:Int = #line) {
     #if DEBUG
         //获取文件名
@@ -129,75 +129,75 @@ func kLog<T>(_ message:T, file:String = #file, function:String = #function,
 }
 
 /** MARK:--打印数组中所有元素*/
-func printArrayElements<T>(a: [T]) {
+public func printArrayElements<T>(a: [T]) {
  for element in a { print(element) }
 }
 
 
 /**MARK:--延时执行*/
-func kDispatchAfter(_ delay: Double, closure:@escaping () -> Void) {
+public func kDispatchAfter(_ delay: Double, closure:@escaping () -> Void) {
     DispatchQueue.main.asyncAfter(
         deadline: DispatchTime.now() + Double(Int64(delay * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC), execute: closure)
 }
 /**主线程*/
-func kDispatch_mainQueue(_ closure:@escaping () -> Void) {
+public func kDispatch_mainQueue(_ closure:@escaping () -> Void) {
     DispatchQueue.main.async {
         closure()
     }
 }
 /** 注册通知*/
-func kAddNotiObserver(_ observer: Any,aSelector: Selector,aName: NSNotification.Name?,anObject: Any?){
+public func kAddNotiObserver(_ observer: Any,aSelector: Selector,aName: NSNotification.Name?,anObject: Any?){
     NotificationCenter.default.addObserver(observer, selector: aSelector, name: aName, object: anObject)
 }
 
 /** 发送通知*/
-func kPostNoti(_ name: NSNotification.Name,_ object: Any?,_ userInfo:[AnyHashable : Any]? = nil){
+public func kPostNoti(_ name: NSNotification.Name,_ object: Any?,_ userInfo:[AnyHashable : Any]? = nil){
     NotificationCenter.default.post(name: name, object: object, userInfo: userInfo)
 }
 /** 移除通知*/
-func kNoti_RemoveObserver(_ observer: Any,_ name: NSNotification.Name,_ object: Any?){
+public func kNoti_RemoveObserver(_ observer: Any,_ name: NSNotification.Name,_ object: Any?){
     NotificationCenter.default.removeObserver(observer, name: name, object: object)
     
 }
 
 //MARK: -- UserDefaults保存key
-func kUserDefaultsSaveKey(_ value: Any?, key: String){
+public func kUserDefaultsSaveKey(_ value: Any?, key: String){
      UserDefaults.standard.set(value, forKey: key)
      UserDefaults.standard.synchronize()
  }
-func kUserDefaultsSaveBool(_ boolValue: Bool, key: String){
+public func kUserDefaultsSaveBool(_ boolValue: Bool, key: String){
      UserDefaults.standard.set(boolValue, forKey: key)
      UserDefaults.standard.synchronize()
  }
 
-func kUserDefaultsSaveInteger(_ intValue: Int, key: String){
+public func kUserDefaultsSaveInteger(_ intValue: Int, key: String){
     UserDefaults.standard.set(intValue, forKey: key)
     UserDefaults.standard.synchronize()
 }
 
 
 //MARK: -- UserDefaults get key
-func kUserDefaultsGetKey(_ key: String) ->Any?{
+public func kUserDefaultsGetKey(_ key: String) ->Any?{
     return UserDefaults.standard.object(forKey: key)
      
  }
  
- func kUserDefaultsGetBoolKey(_ key: String) ->Bool{
+public func kUserDefaultsGetBoolKey(_ key: String) ->Bool{
     return UserDefaults.standard.bool(forKey: key)
  }
 
-func kUserDefaultsGetIntegerKey(_ key: String) ->Int{
+public func kUserDefaultsGetIntegerKey(_ key: String) ->Int{
    return UserDefaults.standard.integer(forKey: key)
     
 }
-func kUserDefaultsGetArray(_ key: String) ->[Any]?{
+public func kUserDefaultsGetArray(_ key: String) ->[Any]?{
        return UserDefaults.standard.array(forKey: key)
 }
 
-func kUserDefaultsGetDictionary(_ key: String) ->[String : Any]?{
+public func kUserDefaultsGetDictionary(_ key: String) ->[String : Any]?{
      return UserDefaults.standard.dictionary(forKey: key)
 }
-func kUserDefaultsRemoveAllKey(_ key: String){
+public func kUserDefaultsRemoveAllKey(_ key: String){
      UserDefaults.standard.removeObject(forKey: key)
      UserDefaults.standard.synchronize()
 }
@@ -205,7 +205,7 @@ func kUserDefaultsRemoveAllKey(_ key: String){
 
 //MARK: --  Device设备相关的工具方法
 /**生成标识字符串(可作为设备唯一标志，储存钥匙串中)*/
-func kGenerateUUIDStr() -> String {
+public func kGenerateUUIDStr() -> String {
     let unique = CFUUIDCreate(kCFAllocatorDefault)
     guard let string = CFUUIDCreateString(kCFAllocatorDefault, unique) else { return "iOS-uuid-unknow" }
     return String(string)
@@ -213,52 +213,52 @@ func kGenerateUUIDStr() -> String {
 
 
   /**appName*/
- func kGetAPPName() -> String{
+public func kGetAPPName() -> String{
       let appName = Bundle.main.object(forInfoDictionaryKey: "CFBundleName") as? String
      return appName!
  }
 
 /**appVersion*/
- func kGetAPPVersion() -> String{
+public func kGetAPPVersion() -> String{
       let appVersion = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String
      return appVersion!
  }
 
 /**appBulidVersion*/
- func  kGetAppBulidVersion() -> String{
+public func kGetAppBulidVersion() -> String{
         let appBulidVersion = Bundle.main.object(forInfoDictionaryKey: "CFBundleVersion") as? String
      return appBulidVersion!
  }
  
      
 /**iOS系统版本*/
-func  kGetiOSVersion() -> String{
+public func kGetiOSVersion() -> String{
         let appiOSVersion = UIDevice.current.systemVersion
         return appiOSVersion
  }
      
 /**设备 udid*/
- func  kGetUdid() -> String{
+public func kGetUdid() -> String{
         let appUdid = UIDevice.current.identifierForVendor!.uuidString
         return appUdid
  }
      
      
 /**设备名称*/
- func  kGetsystemName() -> String{
+public func kGetsystemName() -> String{
         let systemName = UIDevice.current.name
         return systemName
  }
      
      
 /** 设备型号*/
- func  kGetSystemModel() -> String{
+public func kGetSystemModel() -> String{
         let systemModel = UIDevice.current.model
         return systemModel
  }
      
 /**设备区域化型号*/
-func kGetLocalizedModel() -> String{
+public func kGetLocalizedModel() -> String{
         let localizedModel = UIDevice.current.localizedModel
         return localizedModel
  }
@@ -268,7 +268,7 @@ func kGetLocalizedModel() -> String{
 
 class kCommon: NSObject {
         /**-- 时间戳—->字符串*/
-        func getDateBytimeStamp(_ timeStamp: Int) -> String {
+    public func getDateBytimeStamp(_ timeStamp: Int) -> String {
             //转换为时间
             let timeInterval:TimeInterval = TimeInterval(timeStamp)
             let date = NSDate(timeIntervalSince1970: timeInterval)
@@ -280,7 +280,7 @@ class kCommon: NSObject {
             return dateStr
         }
     /**--时间戳—->字符串(需传入格式化样样式如:"yyyy-MM-dd")*/
-        func getDateBytimeStamp(_ timeStamp: Int,formatStr: String) -> String {
+    public func getDateBytimeStamp(_ timeStamp: Int,formatStr: String) -> String {
             //转换为时间
             let timeInterval:TimeInterval = TimeInterval(timeStamp)
             let date = NSDate(timeIntervalSince1970: timeInterval)
