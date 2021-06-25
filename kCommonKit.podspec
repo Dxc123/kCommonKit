@@ -9,7 +9,7 @@
 Pod::Spec.new do |spec|
 
   spec.name         = "kCommonKit"
-  spec.version      = "0.1.1"
+  spec.version      = "0.1.0"
   spec.summary      = "Swift常用的工具集合"
   spec.description  = <<-DESC
   Swift常用的工具集合
